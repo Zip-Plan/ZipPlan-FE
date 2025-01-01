@@ -1,21 +1,32 @@
-import {RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import logo from './logo.svg';
-import './App.css';
-import Mymap from './Pages/My_map';
+import "./App.css";
+import Topbar from "./Pages/Topbar";
+import TotalAssets from "./Pages/TotalAssets";
+import Navbar from "./Pages/Navbar";
+import LoanRecommendation from "./Pages/LoanRecommendation";
 
 const router = createBrowserRouter([
   {
-    path: "/my_map",
-    element: <Mymap/>
-  }
+    path: "/topbar",
+    element: <Topbar />,
+  },
+  {
+    path: "/TotalAssets",
+    element: <TotalAssets />,
+  },
+  {
+    path: "/Navbar",
+    element: <Navbar />,
+  },
+  {
+    path: "/LoanRecommendation",
+    element: <LoanRecommendation />,
+  },
 ]);
 
 function App() {
-
-
-  return (
-    <RouterProvider router={router}/>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
