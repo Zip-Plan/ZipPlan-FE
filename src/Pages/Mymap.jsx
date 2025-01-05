@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Topbar from "./Topbar";
 import Navbar from "./Navbar";
+import marker from "../Images/marker.png";
+import markerclick from "../Images/markerclick.png";
 import {CustomOverlayMap, Map, MapMarker} from 'react-kakao-maps-sdk';
+import { use } from "react";
 
 const Wrapper = styled.div`
     margin: 0;
@@ -80,18 +83,23 @@ const Mapbutton = styled.div`
 `;
 
 const Mapsection = styled.div`
-`
+    position: relative; /* 지도의 기준 컨테이너를 설정 */
+`;
 
 const InfoSection = styled.div`
+    position: absolute; /* 부모 요소(Mapsection)의 상대적 위치에 고정 */
+    top: 10px; /* 지도 상단에서 10px 떨어짐 */
+    left: 10px; /* 지도 좌측에서 10px 떨어짐 */
+    z-index: 10; /* 지도 위에 표시되도록 z-index 설정 */
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 130%; /* 부모 요소 너비의 120%로 설정 */
-    max-width: 400px; /* 최대 너비를 설정하여 너무 커지지 않도록 제한 */
+    width: 23vw;
+    max-width: 400px;
     background-color: white;
     border: 1px solid #293B65;
     border-radius: 5px;
-    overflow: hidden; /* 둥근 모서리 밖 내용 숨김 */
+    overflow: hidden;
 `;
 
 const Title = styled.div`
@@ -100,7 +108,6 @@ const Title = styled.div`
     color: white;
     text-align: center;
     padding: 5px 0;
-    font-weight: bold;
     font-size: 16px;
 `;
 
@@ -121,11 +128,11 @@ const Sub2 = styled.div`
     text-align: center;
     padding: 5px 0;
     font-size: 14px;
-    // border-top: 1px solid #293B65;
 `;
 
 const Mymap = () => {
     const [activeButton, setActiveButton] = useState("map");
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <>
@@ -146,34 +153,60 @@ const Mymap = () => {
                     </Button>
                 </Topbutton>
                 <Mapinfo>
-                    <Mapbutton
-                        active={true} // "서울 강남구" 버튼의 배경색을 바꿈
-                    >
-                        서울 강남구
-                    </Mapbutton>
+                    <Mapbutton active={true}>서울 강남구</Mapbutton>
                     <Mapbutton>주택 유형</Mapbutton>
                     <Mapbutton>보증금</Mapbutton>
                     <Mapbutton>월임대료</Mapbutton>
                     <Mapbutton>공급 면적</Mapbutton>
                 </Mapinfo>
                 <Mapsection>
-                <Map
-                    level={2}
-                    center={{ lat: 37.4979, lng: 127.0276 }}
-                    style={{ width: "100%", height: "660px"}}
-                >
-                    <CustomOverlayMap position={{lat:37.4979, lng:127.0276}}>
-                        <InfoSection>
-                            <Title>주택유형</Title>
-                            <Sub1>공급면적</Sub1>
-                            <Sub2>기본보증금</Sub2>
-                        </InfoSection>
-                    </CustomOverlayMap>
-                    {/* <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
-                        <div style={{color:"#000"}}>Hello World!</div>
-                    </MapMarker> */}
-                </Map>
+                    {/* InfoSection을 지도 위에 고정 */}
+                    <InfoSection>
+                        <Title>주택유형</Title>
+                        <Sub1>공급면적</Sub1>
+                        <Sub2>기본보증금</Sub2>
+                    </InfoSection>
 
+                    <Map
+                        level={2}
+                        center={{ lat: 37.4979, lng: 127.0276 }}
+                        style={{ width: "100%", height: "660px" }}
+                    >
+                        <MapMarker 
+                            position={{lat:37.49729, lng:127.0274}}
+                            image = {{
+                                src: `${marker}`,
+                                size: {
+                                    width: 59,
+                                    height: 59,
+                                },
+                                options: {
+                                    offset : {
+                                        x: 30,
+                                        y:30,
+                                    },
+                                },
+                            }}
+                            clickable={true}
+                            onMouseOver={
+                                () => setIsOpen(true)
+                            }
+                            onMouseOut={
+                                () => setIsOpen(false)
+                            }
+                        >
+                            {isOpen && 
+                                <div 
+                                    style={{ 
+                                        padding: "5px", 
+                                        color: "#000", 
+                                    }}
+                                >
+                                    Hello World
+                                </div>
+                            }
+                        </MapMarker>
+                    </Map>
                 </Mapsection>
             </Wrapper>
             <Navbar />
