@@ -5,6 +5,7 @@ import Topbar from "./Pages/Topbar";
 import TotalAssets from "./Pages/TotalAssets";
 import Navbar from "./Pages/Navbar";
 import LoanRecommendation from "./Pages/LoanRecommendation";
+import Mymap from "./Pages/Mymap";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     path: "/LoanRecommendation",
     element: <LoanRecommendation />,
   },
+  {
+    path: "/mymap",
+    element: <Mymap/>
+  }
 ]);
 
 function App() {
